@@ -16,10 +16,11 @@ test_images = test_images /255
 model = Sequential()
 model.add(Flatten(input_shape=(28,28)))
 model.add(Dense(units=128, activation='relu'))
+model.add(Dense(units=64, activation='relu'))
 model.add(Dense(units=10, activation='softmax'))
 
 model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-model.fit(train_images, train_labels, epochs=5, batch_size=32)
+model.fit(train_images, train_labels, epochs=10, batch_size=16)
 test_loss, test_accuracy = model.evaluate(test_images, test_labels)
 
 #для создания окна основного
@@ -36,8 +37,8 @@ image = Image.new("L", (canvas_width, canvas_height), 'white')
 draw = ImageDraw.Draw(image)
 #для рисования
 def paint(event):
-    x1, y1 = (event.x - 16), (event.y - 16)
-    x2, y2 = (event.x + 16), (event.y + 16)
+    x1, y1 = (event.x - 13), (event.y - 13)
+    x2, y2 = (event.x + 13), (event.y + 13)
     canvas.create_oval(x1, y1, x2, y2, fill='black', width=0)
     draw.ellipse([x1, y1, x2, y2], fill='black')
 
