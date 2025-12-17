@@ -12,7 +12,7 @@ from tensorflow.keras.layers import Flatten, Dense
 
 train_images = train_images /255
 test_images = test_images /255
-
+#создание модели на основе Sequential
 model = Sequential()
 model.add(Flatten(input_shape=(28,28)))
 model.add(Dense(units=128, activation='relu'))
@@ -22,6 +22,7 @@ model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=
 model.fit(train_images, train_labels, epochs=5, batch_size=32)
 test_loss, test_accuracy = model.evaluate(test_images, test_labels)
 
+#для создания окна основного
 root = tk.Tk()
 root.title("Проект")
 root.resizable(False, False)
@@ -33,7 +34,7 @@ canvas.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
 image = Image.new("L", (canvas_width, canvas_height), 'white')
 draw = ImageDraw.Draw(image)
-
+#для рисования
 def paint(event):
     x1, y1 = (event.x - 16), (event.y - 16)
     x2, y2 = (event.x + 16), (event.y + 16)
@@ -41,7 +42,7 @@ def paint(event):
     draw.ellipse([x1, y1, x2, y2], fill='black')
 
 canvas.bind("<B1-Motion>", paint)
-
+#предикт
 def predict_digit():
     img = image.resize((28,28))
     img_array = np.array(img)
@@ -51,7 +52,7 @@ def predict_digit():
     prediction = model.predict(img_array)
     digit = np.argmax(prediction)
     result_label.config(text= "Сеть думает, что это: " + str(digit) )
-
+#очистить канвас
 def clear_canvas():
     canvas.delete("all")
     draw.rectangle([0,0,canvas_width,canvas_height], fill='white')
